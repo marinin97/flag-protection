@@ -9,15 +9,10 @@ public class SpawnEnemy : MonoBehaviour
     public Transform SpawnPoint;
     public float TimeBetweenWaves;
     public TMP_Text WaveCountdownText;
+    public TMP_Text CurrentNumberOfWaveText;
 
-    private float _countDown = 1f;
+    private float _countDown;
     private int _waveNumber = 0;
-    private Flag _flagScript;
-
-    private void Start()
-    {
-        _flagScript = FindObjectOfType<Flag>();
-    }
 
     private void Update()
     {
@@ -28,26 +23,23 @@ public class SpawnEnemy : MonoBehaviour
         }
 
         _countDown -= Time.deltaTime;
-        WaveCountdownText.text = Mathf.Floor(_countDown).ToString();
+        WaveCountdownText.text = $" {_countDown:F0} s";
+        CurrentNumberOfWaveText.text = "wave: " + _waveNumber.ToString();
     }
 
     private IEnumerator SpawnWave()
     {
+        yield return new WaitForSeconds(10f);
         _waveNumber++;
         for (int i = 0; i < _waveNumber; i++)
         {
             SpawnEnemyInstance();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
     private void SpawnEnemyInstance()
     {
-        var enemyInstance = Instantiate(EnemyPrefab, SpawnPoint.position, SpawnPoint.rotation);
-        EnemyMovement enemy = enemyInstance.GetComponent<EnemyMovement>();
-        if (enemy != null)
-        {
-            //_flagScript.RegisterEnemy(enemy);
-        }
+        Instantiate(EnemyPrefab, SpawnPoint.position, SpawnPoint.rotation);
     }
 }
