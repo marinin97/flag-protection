@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
@@ -10,11 +8,13 @@ public class PlayerControler : MonoBehaviour
 
     private Camera _camera;
     private GameObject _bulletInstance;
+    private LevelManager _levelManager;
 
 
     private void Awake()
     {
         _camera = Camera.main;
+        _levelManager = FindObjectOfType<LevelManager>();
     }
 
     private void Update()
@@ -29,7 +29,7 @@ public class PlayerControler : MonoBehaviour
     {
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit) && !_levelManager.MenuActivePanels())
         {
             _bulletInstance = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);
             Vector3 direction = (hit.point - FirePoint.position).normalized;

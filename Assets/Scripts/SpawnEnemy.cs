@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -13,6 +12,12 @@ public class SpawnEnemy : MonoBehaviour
 
     private float _countDown;
     private int _waveNumber = 0;
+    private LevelManager _levelManager;
+
+    private void Awake()
+    {
+        _levelManager = FindObjectOfType<LevelManager>();
+    }
 
     private void Update()
     {
@@ -34,12 +39,17 @@ public class SpawnEnemy : MonoBehaviour
         for (int i = 0; i < _waveNumber; i++)
         {
             SpawnEnemyInstance();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.4f);
         }
     }
 
     private void SpawnEnemyInstance()
     {
-        Instantiate(EnemyPrefab, SpawnPoint.position, SpawnPoint.rotation);
+        var enemyInstance = Instantiate(EnemyPrefab, SpawnPoint.position, SpawnPoint.rotation);
+        Enemy enemy = enemyInstance.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            _levelManager.RegisterEnemy(enemy);
+        }
     }
 }
