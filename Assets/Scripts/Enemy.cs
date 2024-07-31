@@ -9,4 +9,17 @@ public class Enemy : MonoBehaviour
     {
         OnEnemyDestroyed?.Invoke(this);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("thorns"))
+        {
+            Destroy(gameObject);
+        }
+
+        if (other.gameObject.CompareTag("rotate"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }

@@ -7,8 +7,8 @@ public class MainMenuManager : MonoBehaviour
     public Button StartButton;
     public Button ExitButton;
     public Button LevelsButton;
-    public GameObject LevelsPanel;
     public Button[] LevelsButtons;
+    public GameObject LevelsPanel;
 
     private void Awake()
     {

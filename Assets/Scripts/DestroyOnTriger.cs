@@ -3,18 +3,18 @@ using System.Collections;
 
 public class DestroyOnTriger : MonoBehaviour
 {
-    public GameObject[] ThornsObject;
+    public GameObject[] KillObjects;
+    public GameObject[] RotateObjects;
 
     private Animator[] _thornsObjectAnimator;
 
     private void Awake()
-    {
-        // Инициализация массива аниматоров
-        _thornsObjectAnimator = new Animator[ThornsObject.Length];
+    {       
+       _thornsObjectAnimator = new Animator[KillObjects.Length];
 
-        for (int i = 0; i < ThornsObject.Length; i++)
+        for (int i = 0; i < KillObjects.Length; i++)
         {
-            _thornsObjectAnimator[i] = ThornsObject[i].GetComponent<Animator>();
+            _thornsObjectAnimator[i] = KillObjects[i].GetComponent<Animator>();
         }
     }
 
@@ -22,13 +22,21 @@ public class DestroyOnTriger : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<Bullet>(out var bullet))
         {
-            // Активируем анимацию для всех объектов
             foreach (var animator in _thornsObjectAnimator)
             {
                 animator.SetBool("target", true);
             }
 
             StartCoroutine(DeActivateAnimation());
+
+            foreach (var obj in RotateObjects)
+            {
+                var rotateObj = obj.GetComponent<RotateObjects>();
+                if (rotateObj != null)
+                {
+                    rotateObj.ActivateRotation(obj.transform);
+                }
+            }
         }
     }
 
@@ -36,7 +44,6 @@ public class DestroyOnTriger : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        // Деактивируем анимацию для всех объектов
         foreach (var animator in _thornsObjectAnimator)
         {
             animator.SetBool("target", false);

@@ -3,7 +3,6 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public float Speed;
-
     
     private Transform _target;
     private int _wavePointIndex = 0;
@@ -32,13 +31,5 @@ public class EnemyMovement : MonoBehaviour
         }
         _wavePointIndex++;
         _target = Waypoints.Points[_wavePointIndex];
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("thorns"))
-        {
-            Destroy(gameObject);
-        }
-    }
+    }    
 }

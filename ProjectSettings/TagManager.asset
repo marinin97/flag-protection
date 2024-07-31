@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Bullet
   - thorns
+  - rotate
   layers:
   - Default
   - TransparentFX
